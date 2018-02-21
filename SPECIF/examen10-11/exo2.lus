@@ -1,0 +1,71 @@
+node cde_clignot(reset, up, down : bool) returns(left, right : bool);
+let
+	assert(not(up and down));
+	
+	left = up -> if reset then false else if(up and not pre right) then true else if not up and not down then pre left else false;
+	
+	right = down -> if reset then false else if(down and not pre left) then true else if not up and not down then pre right else false;
+	
+tel
+
+
+node obs1(left, right : bool) returns (res : bool);
+let
+	res = not(left and right);
+tel
+
+node obs2(reset,left,right : bool) returns (res : bool);
+let
+	res=reset=> not right and not left;
+tel
+
+node obs3(reset,up,right : bool) returns (res : bool);
+let
+	res = pre right and up and not reset=> not right;
+tel
+
+node obs4(reset,down,left,right : bool) returns (res : bool);
+let
+	res = not reset and not pre left and down => right;
+tel
+
+node obs5(reset, down, right : bool) returns (res : bool);
+let
+	res = true->not reset and not pre reset and  down and pre down => right;
+tel
+
+node sim2(reset,up,down : bool) returns (res : bool);
+var left, right : bool;
+let
+	(left,right) = cde_clignot(reset,up,down);
+	res = obs2(reset,left,right);
+tel
+
+
+node sim3(reset,up,down : bool) returns (res : bool);
+var left,right : bool;
+let
+	(left,right) = cde_clignot(reset,up,down);
+	res = obs3(reset,up,right);
+tel
+
+node sim5(reset,up,down : bool) returns (res : bool);
+var left, right : bool;
+let
+	(left,right) = cde_clignot(reset,up,down);
+	res = obs5(reset,down,right);
+tel
+
+
+node volant(theta : int; debut,fin,g_d : bool) returns (desactive : bool);
+var activation : bool; alphamin, alphamax, alpha : int;
+let
+	alphamin = -10;
+	alphamax = 10;
+	
+	activation = if debut then true else if fin then false else pre activation;
+	alpha = tetha->if activation then pre alpha + theta else 0;
+	
+	desactive  = false -> if pre desactive then false else if activation and g_d 
+	
+tel

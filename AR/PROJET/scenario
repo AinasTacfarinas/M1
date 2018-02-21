@@ -1,0 +1,51 @@
+*Executer les programmes avec un nombre inférieur ou égal à (2^M)+1, M étant une constante donnée dans le coude source, et évidemment pouvant être modifié
+
+*Scénario de l'exercice I (chord simplifié)
+
+-Le processus de rang 1 recherche sont propre ID
+
+-Le processus de rang 2 recherche une cle d'ID 50 (il est possible que ce soit lui qu'il ait, ne pas hésiter à changer la valeur ou à lancer l'exécution plusieurs fois)
+
+-Le processus de rang 1 se déconnecte
+// Un affichage se produit montrant que l'ancien successeur et predecesseur ont bien été mis à jour
+
+-Le processus de rang 1 se reconnecte en demandant au processus de rang 3 (celui ci n'est pas forcément l'ancien successeur du processus qui veut se reconnecter)
+// un affichage se produit montrant que le système a bien été mis à jour
+
+
+*Exécuter de cette manière par exemple
+mpicc -o chord_simplifie chord_simplifie.c
+mpirun -np 6 chord_simplifie
+
+
+
+
+*Scénario de l'exercice II (chord non simplifié)
+
+-Le processus de rang 4 recherche son propre ID
+
+-Le processus de rang 2 recherche la clé 35
+
+-Le processus de rang 5 recherche al clé 100 (qui n'existe pas car ici M=6)
+
+
+
+*Exécuter de cette manière par exemple
+mpicc -o chord_non_simplifie_V2 chord_non_simplifie_V2.c
+mpirun -np 6 chord_non_simplifie_V2
+
+
+*Il est cependant possible de modifier les exécutions dans les fichiers, afin de modifier les recherches, connexions etc... tant que soit bien encadrés par des MPI_Barrier et que le processus de rang 0 n'exéucute pas les fonctions, comme ceci
+
+MPI_Barrier(MPI_COMM_WORLD );
+	
+if(rang != 0)
+	//fonction de recherche, deconnexion ou autre...
+	
+MPI_Barrier(MPI_COMM_WORLD );
+
+
+
+*Une demande de reconnexion d'un pair de rang x, doit d'abord être précédé dans le code, d'une demande de déconnexion de lui même
+
+

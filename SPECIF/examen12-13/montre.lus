@@ -1,0 +1,61 @@
+node horloge(tt : bool) returns (h,m,s : int);
+let
+        s = 0  -> if pre s = 59 then 0 else pre s +1 ;
+        m = 0  -> if pre s = 59 then
+                     if pre m = 59 then 0
+                     else pre m +1
+                  else pre m ;
+        h = 0  -> if pre m = 59 then
+                     if pre h = 23 then 0
+                     else pre h +1
+                  else pre h ;
+tel;
+
+node diff(h,m,s,init_h,init_m,init_s : int) returns (d_h,d_m,d_s : int);
+let
+	d_h = h-init_h;
+	d_m = m-init_m;
+	d_s = s-init_s;
+tel;
+
+node chrono(on : bool; h,m,s : int) returns ( c_h,c_m,c_s: int);
+var init_h, init_m, init_s : int; decompte : bool;
+
+let
+	(init_h, init_m, init_s) = 
+	(0,0,0) -> if not pre decompte and on then (h,m,s) 
+		                   else if pre decompte then pre (init_h,init_m,init_s) 
+		                   else (0,0,0);
+	decompte = 0 -> if not pre decompte and on then true 
+	else  if pre decompte and on then false
+	else pre decompte;
+	(c_h,c_m,c_s) = 
+		        (0,0,0) -> if decompte then diff(h,m,s,init_h,init_m,init_s) 
+		 else pre (c_h,c_m,c_s);
+tel;
+
+node mychrono(on : bool; h,m,s : int) returns (c_h,c_m,c_s: int);
+var hi, mi, si : int;active : bool;
+
+let
+	active = false -> if on then not pre active else pre active;
+
+	(hi,mi,si) = (0,0,0) -> if not pre active and active then (h,m,s) else if active then (pre hi,pre mi, pre si) else (0,0,0);
+	
+	(c_h,c_m,c_s) = (0,0,0)->if active then diff(h,m,s,hi,mi,si) else if pre active and not active then pre (c_h, c_m,c_s) else (0,0,0);
+tel;
+
+
+node montre(CH,ON : bool) returns(active : bool;aff_h,aff_m,aff_s : int);
+var h,m,s,hc,mc,sc : int;
+let
+	active = false -> if CH then not pre active else pre active;
+	
+	(h,m,s) = horloge(true);
+	(hc,mc,sc) = mychrono(ON,h,m,s);
+	
+	(aff_h,aff_m,aff_s) = (h,m,s) -> if active then (hc,mc,sc) else (h,m,s);
+tel;
+
+
+

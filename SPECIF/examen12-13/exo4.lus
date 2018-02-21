@@ -1,0 +1,23 @@
+node avant(E1,E2,C : bool) returns (S : bool);
+var S1,S2 : bool;
+let
+	S = if C then S1 else S2;
+	S1 = M(E1);
+	S2 = M(E2);
+tel
+
+node apres(E1,E2,C : bool) returns (S:bool);
+	let
+	S = M(if C then E1 else E2);
+tel
+
+node M(i : bool) returns (o : bool); -- troisieme cas
+let
+o = 0 -> if i then not pre o else pre o;
+tel
+
+
+node sim(E1,E2,C : bool) returns (S : bool);
+let
+	S = (avant(E1,E2,C) = apres(E1,E2,C));
+tel

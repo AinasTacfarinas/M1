@@ -1,0 +1,14 @@
+node FEUX (TD,TI,CP : bool) returns (v,c,p : bool);
+var etat : int; petat : int;
+let	
+	petat = 0 -> pre etat;
+	etat = if((petat=0 and TD) or (petat=2 and TI)) then 1 else
+			if((petat=1 and TD) or (petat=3 and CP)) then 2 else
+			if(petat=1 and TI) then 0 else
+			if(petat=2 and CP) then 3 else
+			pre etat;
+	
+	v= (etat=1);
+	c= (etat=2);
+	p= (etat=3);
+tel

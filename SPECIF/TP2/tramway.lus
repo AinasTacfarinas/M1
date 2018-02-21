@@ -1,0 +1,33 @@
+node switch (set, reset, initial: bool) returns (level: bool);
+let
+	level = initial -> if set then true
+						else if reset then false
+						else pre(level);
+tel;
+
+node once_from_to (once,de,to : bool) returns (ok : bool);
+let
+	ok = not(switch(false,de,once) and to);
+tel;
+
+node tramway (dp,es,fp: bool) returns (en_station, porte_demandee,porte_ouverte,ouvrir_porte,fermer_porte,porte_ok,attention_depart,accepter_demande, depart_iminent, depart : bool);
+let	
+
+	en_station = es;
+	porte_demandee = dp->(if porte_ouverte then false else if pre en_station and not en_station then false else if false -> dp and not pre porte_demandee then true else if attention_depart then false  else pre porte_demandee);
+	porte_ouverte = false->if false->pre fermer_porte then false else if not pre porte_ouverte then false->pre ouvrir_porte and pre accepter_demande and pre en_station  else pre porte_ouverte; 
+	ouvrir_porte = false->accepter_demande and en_station and porte_demandee ;
+	fermer_porte = (attention_depart and porte_ouverte);
+	porte_ok = (depart_iminent and not porte_ouverte);
+	attention_depart = if false->fp and en_station then true else false;
+	accepter_demande = true->if depart_iminent then false else if depart then true else false->pre accepter_demande;
+	depart_iminent = if attention_depart then true else if depart then false else false->pre depart_iminent;
+	depart = (pre en_station and not en_station);
+	
+	assert(true->ouvrir_porte or pre porte_ouverte or not porte_ouverte);
+	assert(porte_ouverte=>((pre ouvrir_porte) or (pre porte_ouverte)));
+	assert((not porte_ouverte) => ((pre fermer_porte) or (pre not porte_ouverte)));
+	assert(once_from_to(porte_ok,attention_depart,depart));
+	assert(once_from_to(attention_depart, en_station and not pre en_station, depart));
+	
+tel;

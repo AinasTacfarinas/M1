@@ -1,0 +1,36 @@
+Propriété que je veux vérifier :
+veilleuse et code sont exclusifs 
+
+true->not(c and v)
+
+
+Diag :
+
+--Pollux Version 2.4
+
+DIAGNOSIS:
+LOCAL VARIABLE C0 IS
+V26_v
+LOCAL VARIABLE C1 IS
+(V70_V13_petat)=(0)
+LOCAL VARIABLE C2 IS
+(V70_V13_petat)=(2)
+LOCAL VARIABLE C3 IS
+(V70_V13_petat)=(4)
+LOCAL VARIABLE C4 IS
+(V70_V13_petat)=(1)
+LOCAL VARIABLE C5 IS
+(V70_V13_petat)=(3)
+LOCAL VARIABLE C6 IS
+(V70_V13_petat)=(5)
+LOCAL VARIABLE C7 IS
+(V69_V12_etat)=(2)
+LOCAL VARIABLE C8 IS
+V29_abs
+
+--- TRANSITION 1 ---
+true
+--- TRANSITION 2 ---
+C0 and C7 or
+C0 and C8
+FALSE PROPERTY

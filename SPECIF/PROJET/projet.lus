@@ -1,0 +1,44 @@
+node cache (type,adresse,val : bool,arb_gnt,valide : bool, b_out : bool^3) returns (c_out : bool^3,valres:bool);
+var data,ad, requesting : bool;
+let	
+	valres = if (not type and valide) then data else if(type and valide) then val;
+	c_out[0] = if(type or (not type and not valide)) then type
+	c_out[1] = if(type or (not type and not valide)) then adresse
+	c_out[2] = if(type or (not type and not valide)) then val
+	
+	requesting = if(type or (not type and not valide)) then true else if arb_gnt then false else false -> pre requesting;
+	
+	data = if(type and valide) then val else if arb_gnt then b_out[2] else false->pre data;
+	
+tel
+
+
+
+
+node memoire (type,adresse, val : bool) returns (signal, valres : bool);
+var data : bool^2;
+let	
+	data[adresse] = if(type) then val else false->pre data[adresse];
+	signal = type;
+	valres = if(not type) then data[adresse] else false;
+tel
+
+node bus (valid : bool, b_in_L1_1,b_in_L1_2,b_in_L1_3 : bool^3, signal, valres : bool) returns (b_out : bool^3);
+var ;
+let	
+	
+tel
+
+node processeur (type : bool, adresse : bool, val : bool) returns ();
+var ;
+let	
+	
+tel
+
+node archi () returns ();
+var ;
+let	
+	
+tel
+
+

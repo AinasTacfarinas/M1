@@ -1,0 +1,27 @@
+node FEUXET (TD,TI,CP,ABE,LPE : bool) returns (v,c,p,abs,lps : bool);
+var etat : int; petat : int; t_1_0_0_0_0 : bool; t_0_1_0_0_0 : bool; t_0_0_1_0_0 : bool; t_0_0_0_1_0 : bool; t_0_0_0_0_1 : bool; 
+let	
+		
+	t_1_0_0_0_0 = TD and not TI and not CP and not ABE and not LPE; 
+	t_0_1_0_0_0 = not TD and TI and not CP and not ABE and not LPE; 
+	t_0_0_1_0_0 = not TD and not TI and CP and not ABE and not LPE; 
+	t_0_0_0_1_0 = not TD and not TI and not CP and ABE and not LPE; 
+	t_0_0_0_0_1 = not TD and not TI and not CP and not ABE and LPE; 
+	
+	petat = 0 -> pre etat;
+	etat = if((petat=0 and t_1_0_0_0_0) or (petat=2 and t_0_1_0_0_0)) then 1 else
+			if((petat=1 and t_1_0_0_0_0) or (petat=3 and t_0_0_1_0_0) or (petat=4 and t_0_0_0_1_0)) then 2 else
+			if(petat=1 and t_0_1_0_0_0) then 0 else
+			if(petat=2 and t_0_0_1_0_0 or (petat=5 and t_0_0_0_0_1)) then 3 else
+			if(petat=2 and t_0_0_0_1_0) then 4 else
+			if(petat=3 and t_0_0_0_0_1) then 5 else
+			petat;
+
+	
+	v= (etat=1);
+	c= (etat=2 or etat=4);
+	p= (etat=3 or etat=5);
+	abs=(etat=4);
+	lps=(etat=5);
+	
+tel

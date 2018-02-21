@@ -1,0 +1,19 @@
+node arbitre
+  (requeteL1: bool;
+  requeteL2: bool;
+  requeteL3: bool)
+returns
+  (arb_gnt: int;
+  i: int);
+
+let
+  arb_gnt = ((if requeteL1 then 1 else (if requeteL2 then 2 else (if requeteL3 
+  then 3 else 0))) -> (if (not ((pre arb_gnt) = 0)) then 0 else (if ((requeteL1 
+  or requeteL2) or requeteL3) then i else 0)));
+  i = ((if requeteL1 then 1 else (if requeteL2 then 2 else 3)) -> (if ((pre 
+  arb_gnt) = 0) then (pre i) else (if (requeteL1 and ((((pre i) = 3) or (((pre 
+  i) = 2) and (not requeteL3))) or ((not requeteL3) and (not requeteL2)))) then 
+  1 else (if (requeteL2 and ((((pre i) = 1) or (((pre i) = 3) and (not 
+  requeteL1))) or ((not requeteL3) and (not requeteL1)))) then 2 else 3))));
+tel
+

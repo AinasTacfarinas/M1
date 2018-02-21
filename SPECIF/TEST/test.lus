@@ -1,0 +1,37 @@
+node M(t : bool) returns (res : int);
+let
+	res = 0-> if(t) then pre res + 1 else pre res;
+tel
+
+node ALLO(C : bool) returns (S : int);
+var S1,S2 : int;
+let
+	S = if C then S1 else S2;
+	S1 = M(C);
+	S2 = M(not C);
+tel	
+
+node TEST(x : real) returns (res : real);
+let
+	res = x;
+tel
+
+node f(i : bool) returns (res : bool);
+let
+	res = g(i);
+tel
+
+node g(i : bool) returns (res : bool);
+let
+	res = f(i);
+tel
+
+node puissance(x,n : int) returns (res : int);
+let
+	res = if n<0 then -1 else if n=0 then 1 else if n=1 then x else x*puissance(x,n-1);
+tel
+
+node h(x,y : bool) returns (res : bool);
+let
+	res = (if y then current(x when y) else false) -> current(x when y);
+tel

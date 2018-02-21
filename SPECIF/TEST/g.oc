@@ -1,0 +1,28 @@
+oc5:
+module: g
+
+signals: 2
+   0: input:i - single:1 bool:0
+   1: output:res - single:2
+end: 
+
+variables: 3
+   0: $0
+   1: $0
+   2: $0
+end: 
+
+actions: 3
+   0: present: 0
+   1: output: 1
+   2: call:$0 (2) (@$1)
+end:
+
+states: 1
+startpoint: 0
+calls: 3
+0:  2 1 <0> 
+
+end:
+
+endmodule:

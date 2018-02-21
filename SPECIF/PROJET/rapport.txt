@@ -1,0 +1,8 @@
+node memoire
+entrees :
+access : type boolen, si false = lecture, si true = ecriture
+adresse : type boolen car que deux adresse, 0 et 1 (false et true)
+val : type boolen la donnée est sur 1 bit
+sorties
+signal : true si écriture, sinon false
+valres : valeur de retour en cas de lecture

@@ -1,0 +1,20 @@
+node JAFTER (X : bool) returns (Y : bool);
+
+let
+	Y = 0->pre X;	
+tel;
+
+
+
+node EDGE (X : bool) returns (Y : bool);
+
+let
+	Y = 0->pre X xor X;
+tel; 
+
+node SWITCH (orig, on, off : bool) returns (state : bool);
+
+let
+	state = orig ->if on then 1 else if off then 0 else pre state;
+	assert not (on and off);
+tel;

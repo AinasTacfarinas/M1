@@ -1,0 +1,9 @@
+lus2ec : permet de génerer un fichier .ec à partir d'un fichier .lus, afin de "structurer" les données présentes et pour plus tard faciliter la compilation en un fichier .c (dépliage).
+
+ec2c : permet de géner un fichier .c à partir d'un fichier .ec, y mettant, avec la méthode de dépliage, les fonctions et les structures nécessaires à une exécution de l'automate.
+	-v : cette option permet de passer en mode "verbeux" : des informations additionnelles sur le déroulement de la compilation sont affichées 
+	-loop : permet de créer un fichier _loop.c qui contient une fonction main standard permettant d'exécuter l'automate.
+
+Les fichiers "nom".c et "nom"_loop.c vont ainsi permettre de générer un exécutable d'un automate (~prédéfinie dans fichier .lus).
+
+

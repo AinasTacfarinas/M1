@@ -1,0 +1,19 @@
+node Portillon (A, B: bool) returns (alarm: bool);
+var e_a_b : int; t_0_0 : bool; t_1_0 : bool; t_0_1 : bool;
+let
+	assert(not (A and B));
+	
+	t_0_0 = ((not A) and (not B));
+	t_1_0 = (A and (not B));
+	t_0_1 = ((not A) and B);
+	
+	alarm = if(e_a_b = 40 or e_a_b = 41) then true else false;
+	
+	e_a_b = (if t_0_0 then 0 else if A then 1 else 40)-> 	if (pre e_a_b = 0 or pre e_a_b = 40 or pre e_a_b = 3) and t_0_0 then 0
+								else if (pre e_a_b = 0 or pre e_a_b = 3 or pre e_a_b = 40) and t_1_0 then 1
+								else if (pre e_a_b = 1 or pre e_a_b = 2 or pre e_a_b = 41) and t_0_0 then 2
+								else if (pre e_a_b = 1 or pre e_a_b = 2 or pre e_a_b = 41) and t_0_1 then 3
+								else if (pre e_a_b = 0 or pre e_a_b = 3 or pre e_a_b = 40)  then 40
+								else 41;
+tel;
+
